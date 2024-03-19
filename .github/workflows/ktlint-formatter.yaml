@@ -5,6 +5,7 @@ on:
     paths:
       - "**/*.kt"
       - ".github/workflows/ktlint.yml"
+  workflow_dispatch:
 
 jobs:
   ktlint:
