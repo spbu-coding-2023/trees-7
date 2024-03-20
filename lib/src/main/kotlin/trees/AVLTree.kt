@@ -17,9 +17,12 @@ class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLTreeNode<K, V>>() {
 
         if (node == null) {
             return null
-        } else if (key < node.key) {
+        }
+
+        val nodeKey = node.getKey()
+        if (key < nodeKey) {
             node.left = remove(node.left, key)
-        } else if (key > node.key) {
+        } else if (key > nodeKey) {
             node.right = remove(node.right, key)
         } else {
 
@@ -36,9 +39,9 @@ class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLTreeNode<K, V>>() {
                     }
 
                     val tmp = right ?: node
-                    node.key = tmp.key
-                    node.value = tmp.value
-                    node.right = remove(node.right, tmp.key)
+                    node.setKey(tmp.getKey())
+                    node.setValue(tmp.getValue())
+                    node.right = remove(node.right, tmp.getKey())
 
                 }
             }
@@ -56,9 +59,10 @@ class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLTreeNode<K, V>>() {
             return node
         }
 
-        if (node.key > key) {
+        val nodeKey = node.getKey()
+        if (nodeKey > key) {
             node.left = insert(node.left, key, data)
-        } else if (node.key < key) {
+        } else if (nodeKey < key) {
             node.right = insert(node.right, key, data)
         }
 
@@ -166,11 +170,19 @@ class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLTreeNode<K, V>>() {
     private fun updateHeight(node: AVLTreeNode<K, V>?) {
         when {
             node == null -> return
-            else -> node.height = 1 + maxOf(getHeight(node.left), getHeight(node.right))
+            else -> node.setHeight(maxOf(getHeight(node.left), getHeight(node.right)) + 1)
         }
     }
 
     private fun getHeight(node: AVLTreeNode<K, V>?): Int {
-        return node?.height ?: 0
+        return node?.getHeight() ?: 0
+    }
+
+    fun iterateNode(node: AVLTreeNode<K, V>? = root, action: (AVLTreeNode<K, V>) -> Unit) {
+        if (node != null) {
+            iterateNode(node.left, action)
+            action(node)
+            iterateNode(node.right, action)
+        }
     }
 }
