@@ -7,24 +7,24 @@ import treeNodes.BSTreeNode
 class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTreeNode<K, V>>() {
 
     override fun insert(key: K, value: V) {
-        root = insertBST(root, key, value)
+        root = insert(root, key, value)
     }
 
-    private fun insertBST(node: BSTreeNode<K, V>?, key: K, value: V): BSTreeNode<K, V> {
+    private fun insert(node: BSTreeNode<K, V>?, key: K, value: V): BSTreeNode<K, V> {
         var tmpNode = node
         if (node == null) {
             tmpNode = BSTreeNode(key, value)
             return tmpNode
         }
         if (node.key > key) {
-            node.right = insertBST(node.right,key, value)
+            node.right = insert(node.right,key, value)
         } else {
-            node.left = insertBST(node.left,key, value)
+            node.left = insert(node.left,key, value)
         }
         return node
     }
 
-    //
+
     override fun remove(key: K) {
         if (root==null){
             return
@@ -32,7 +32,7 @@ class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTreeNode<K, V>>() {
             root=remove(root,key)
         }
     }
-    //TODO fix this shitt
+
     private fun remove(node: BSTreeNode<K, V>?, key: K): BSTreeNode<K, V>? {
         if (node == null) {
             return null
