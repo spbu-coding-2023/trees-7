@@ -9,7 +9,7 @@ abstract class BinaryTree<K : Comparable<K>, V, U : BinaryTreeNode<K, V, U>> {
     abstract fun remove(key: K)
 
     open fun search(key: K): V {
-        return searchNode(key).value
+        return searchNode(key).getValue()
     }
 
     protected fun searchNode(key: K): U {
@@ -17,8 +17,8 @@ abstract class BinaryTree<K : Comparable<K>, V, U : BinaryTreeNode<K, V, U>> {
             throw InvalidKeyException("Empty tree")
         }
         var curr: U? = root
-        while (curr != null && curr.key != key) {
-            curr = if (curr.key > key) {
+        while (curr != null && curr.getKey() != key) {
+            curr = if (curr.getKey() > key) {
                 curr.left
             } else {
                 curr.right
@@ -53,17 +53,17 @@ abstract class BinaryTree<K : Comparable<K>, V, U : BinaryTreeNode<K, V, U>> {
             else -> false
         }
     }
-    open fun iterateKeys(node: U? = root, action: (K) -> Unit) {
+    fun iterateKeys(node: U? = root, action: (K) -> Unit) {
         if (node != null) {
             iterateKeys(node.left, action)
-            action(node.key)
+            action(node.getKey())
             iterateKeys(node.right, action)
         }
     }
-    open fun iterateValues(node: U? = root, action: (V) -> Unit) {
+    fun iterateValues(node: U? = root, action: (V) -> Unit) {
         if (node != null) {
             iterateValues(node.left, action)
-            action(node.value)
+            action(node.getValue())
             iterateValues(node.right, action)
         }
     }

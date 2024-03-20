@@ -16,7 +16,7 @@ class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTreeNode<K, V>>() {
             tmpNode = BSTreeNode(key, value)
             return tmpNode
         }
-        if (node.key > key) {
+        if (node.getKey() > key) {
             node.right = insertBST(node.right,key, value)
         } else {
             node.left = insertBST(node.left,key, value)
@@ -37,9 +37,10 @@ class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTreeNode<K, V>>() {
         if (node == null) {
             return null
         }
+        val nodeKey = node.getKey()
         when {
-            key < node.key && node.left!=null -> node.left = remove(node.left, key)
-            key > node.key && node.right!=null -> node.right = remove(node.right, key)
+            key < nodeKey && node.left!=null -> node.left = remove(node.left, key)
+            key > nodeKey && node.right!=null -> node.right = remove(node.right, key)
             else -> {
                 if (node.left == null) {
                     return node.right
@@ -49,8 +50,8 @@ class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTreeNode<K, V>>() {
                 if(node.right!=null){
                     val rightChild=node.right
                     if (rightChild!=null) {
-                        node.key = getMinNodeFromNode(rightChild).key
-                        node.right = remove(node.right, node.key)
+                        node.setKey(getMinNodeFromNode(rightChild).getKey())
+                        node.right = remove(node.right, node.getKey())
                     }
                 }
             }

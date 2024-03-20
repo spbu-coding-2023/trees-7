@@ -14,9 +14,9 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
 
         while (node != null) {
             parent = node
-            node = if (key < node.key) {
+            node = if (key < node.getKey()) {
                 node.left
-            } else if (key > node.key) {
+            } else if (key > node.getKey()) {
                 node.right
             } else {
                 throw IllegalArgumentException("BST already contains a node with key $key")
@@ -27,7 +27,7 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
         newNode.color = Color.RED
         if (parent == null) {
             root = newNode
-        } else if (key < parent.key) {
+        } else if (key < parent.getKey()) {
             parent.left = newNode
         } else {
             parent.right = newNode
@@ -39,8 +39,8 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
 
     private fun fixRedBlackPropertiesAfterInsert(node: RBTreeNode<K, V>) {
         var parent: RBTreeNode<K, V> = node.parent
-            ?: // Uncomment the following line if you want to enforce black roots
-            return
+                ?: // Uncomment the following line if you want to enforce black roots
+                return
 
 
         if (isBlack(parent)) {
@@ -101,8 +101,8 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
     override fun remove(key: K) {
         var node: RBTreeNode<K, V>? = root
 
-        while (node != null && node.key !== key) {
-            node = if (key < node.key) {
+        while (node != null && node.getKey() !== key) {
+            node = if (key < node.getKey()) {
                 node.left
             } else {
                 node.right
@@ -122,7 +122,7 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
         } else {
             val inOrderSuccessor: RBTreeNode<K, V> = findMinimum(node.right as RBTreeNode)
 
-            node.key = inOrderSuccessor.key
+            node.setKey(inOrderSuccessor.getKey())
 
             movedUpNode = deleteNodeWithZeroOrOneChild(inOrderSuccessor)
             deletedNodeColor = inOrderSuccessor.color
@@ -264,9 +264,9 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
     }
 
     private fun replaceParentsChild(
-        parent: RBTreeNode<K, V>?,
-        oldChild: RBTreeNode<K, V>?,
-        newChild: RBTreeNode<K, V>?,
+            parent: RBTreeNode<K, V>?,
+            oldChild: RBTreeNode<K, V>?,
+            newChild: RBTreeNode<K, V>?,
     ) {
         if (parent == null) {
             root = newChild
