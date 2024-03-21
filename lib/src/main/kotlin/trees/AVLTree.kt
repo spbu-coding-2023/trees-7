@@ -27,18 +27,16 @@ class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLTreeNode<K, V>>() {
                 node.left == null -> return node.right
                 node.right == null -> return node.left
                 else -> {
-                    // TODO fix Exception throwing (return null or fairy fix)
-                    var right: AVLTreeNode<K, V>? = null
 
-                    if (node.right != null) {
-                        right = node.right ?: throw Exception("Thread problems")
-                        right = getMinNodeFromNode(right)
-                    }
+                    var right = node.right ?: node
+                    right = getMinNodeFromNode(right)
 
-                    val tmp = right ?: node
-                    node.key = tmp.key
-                    node.value = tmp.value
-                    node.right = remove(node.right, tmp.key)
+
+                    val tmp = right
+                    node.setKey(tmp.getKey())
+                    node.setValue(tmp.getValue())
+                    node.right = remove(node.right, tmp.getKey())
+
 
                 }
             }
