@@ -1,6 +1,5 @@
 package trees
 
-import BinaryTree
 import treeNodes.BSTreeNode
 
 
@@ -10,16 +9,22 @@ class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTreeNode<K, V>>() {
         root = insertBST(root, key, value)
     }
 
-    private fun insertBST(node: BSTreeNode<K, V>?, key: K, value: V): BSTreeNode<K, V> {
-        var tmpNode = node
+
+    private fun insert(node: BSTreeNode<K, V>?, key: K, value: V): BSTreeNode<K, V> {
+        val tmpNode: BSTreeNode<K, V>?
+
         if (node == null) {
             tmpNode = BSTreeNode(key, value)
             return tmpNode
         }
-        if (node.key > key) {
-            node.right = insertBST(node.right,key, value)
+
+        if (node.getKey() > key) {
+            node.right = insert(node.right,key, value)
+        } else if (node.getKey() < key) {
+            node.left = insert(node.left,key, value)
         } else {
-            node.left = insertBST(node.left,key, value)
+            node.setValue(value)
+
         }
         return node
     }
