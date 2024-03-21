@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 class AVLTreeTest {
-
     @Test
     fun `inorder traversal sequence of tree keys after insertion's`() {
         val avlTree = AVLTree<Int, String>()
@@ -23,7 +22,7 @@ class AVLTreeTest {
         }
         assertEquals(testArray, currArray)
     }
-
+    
     // Removing special cases
     //       5
     //     /   \
