@@ -1,7 +1,5 @@
 package trees
 
-import BinaryTree
-
 import treeNodes.Color
 import treeNodes.RBTreeNode
 

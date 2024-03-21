@@ -1,3 +1,5 @@
+package trees
+
 import java.security.InvalidKeyException
 import treeNodes.BinaryTreeNode
 
@@ -12,7 +14,7 @@ abstract class BinaryTree<K : Comparable<K>, V, U : BinaryTreeNode<K, V, U>> {
         return searchNode(key).getValue()
     }
 
-    protected fun searchNode(key: K): U {
+     private fun searchNode(key: K): U {
         if (this.root == null) {
             throw InvalidKeyException("Empty tree")
         }
@@ -65,6 +67,14 @@ abstract class BinaryTree<K : Comparable<K>, V, U : BinaryTreeNode<K, V, U>> {
             iterateValues(node.left, action)
             action(node.getValue())
             iterateValues(node.right, action)
+        }
+    }
+
+    fun iterateNodes(node: U? = root, action: (U) -> Unit) {
+        if (node != null) {
+            iterateNodes(node.left, action)
+            action(node)
+            iterateNodes(node.right, action)
         }
     }
 

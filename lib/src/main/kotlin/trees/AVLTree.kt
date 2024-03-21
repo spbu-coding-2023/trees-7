@@ -1,6 +1,5 @@
 package trees
 
-import BinaryTree
 import treeNodes.AVLTreeNode
 
 
@@ -60,6 +59,8 @@ class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLTreeNode<K, V>>() {
             node.left = insert(node.left, key, data)
         } else if (nodeKey < key) {
             node.right = insert(node.right, key, data)
+        } else {
+            node.setValue(data)
         }
 
         updateHeight(node)
@@ -174,11 +175,15 @@ class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLTreeNode<K, V>>() {
         return node?.getHeight() ?: 0
     }
 
-    fun iterateNode(node: AVLTreeNode<K, V>? = root, action: (AVLTreeNode<K, V>) -> Unit) {
-        if (node != null) {
-            iterateNode(node.left, action)
-            action(node)
-            iterateNode(node.right, action)
-        }
-    }
+}
+
+fun main() {
+    val avlTree: AVLTree<Int, String> = AVLTree()
+    avlTree.insert(1, "Golang")
+    avlTree.insert(2, "Kotlin")
+    avlTree.insert(3, "Python")
+    avlTree.insert(4, "Fortran")
+    avlTree.insert(5, ".Net")
+    avlTree.insert(2, "NEW NEW NEW")
+    print(avlTree.search(2))
 }
