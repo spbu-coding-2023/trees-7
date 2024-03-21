@@ -3,6 +3,8 @@ import treeNodes.BinaryTreeNode
 
 abstract class BinaryTree<K : Comparable<K>, V, U : BinaryTreeNode<K, V, U>> {
     protected open var root: U? = null
+    public var size: Int = 0
+        protected set
 
     abstract fun insert(key: K, value: V)
 
@@ -29,8 +31,6 @@ abstract class BinaryTree<K : Comparable<K>, V, U : BinaryTreeNode<K, V, U>> {
         }
         return curr
     }
-
-
 
     protected fun getMinNodeFromNode(node: U): U {
         var leftChild = node.left

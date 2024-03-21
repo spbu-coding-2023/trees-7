@@ -62,4 +62,16 @@ class AVLTreeTest {
         assertEquals(valuesExpected, values)
     }
 
+    @Test
+    fun `size when insert existing keys`(){
+        val avlTree = AVLTree<Int, String>()
+        avlTree.insert(13,"Dog")
+        avlTree.insert(13,"Cat")
+
+        val sizeExpected = 1
+        val sizeActual = avlTree.size
+        assertEquals(sizeExpected,sizeActual,
+            "Size doesn't change when insert existing keys")
+    }
+
 }
