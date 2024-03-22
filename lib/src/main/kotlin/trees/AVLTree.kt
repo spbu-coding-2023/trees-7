@@ -33,10 +33,14 @@ class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLTreeNode<K, V>>() {
                     var right = node.right ?: node
                     right = getMinNodeFromNode(right)
 
+
+
                     val tmp = right
                     node.setKey(tmp.getKey())
                     node.setValue(tmp.getValue())
                     node.right = remove(node.right, tmp.getKey())
+
+
 
                 }
             }
@@ -172,6 +176,7 @@ class AVLTree<K : Comparable<K>, V> : BinaryTree<K, V, AVLTreeNode<K, V>>() {
     }
 
     private fun getHeight(node: AVLTreeNode<K, V>?): Int {
+
         return node?.getHeight() ?: 0
     }
 
@@ -186,4 +191,5 @@ fun main() {
     avlTree.insert(5, ".Net")
     avlTree.insert(2, "NEW NEW NEW")
     print(avlTree.search(2))
+
 }

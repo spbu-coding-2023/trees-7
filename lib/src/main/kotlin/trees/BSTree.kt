@@ -9,18 +9,23 @@ class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTreeNode<K, V>>() {
         root = insert(root, key, value)
     }
 
+
+
     private fun insert(node: BSTreeNode<K, V>?, key: K, value: V): BSTreeNode<K, V> {
         val tmpNode: BSTreeNode<K, V>?
+
         if (node == null) {
             tmpNode = BSTreeNode(key, value)
             return tmpNode
         }
+
         if (node.getKey() > key) {
             node.right = insert(node.right,key, value)
         } else if (node.getKey() < key) {
             node.left = insert(node.left,key, value)
         } else {
             node.setValue(value)
+
         }
         return node
     }
