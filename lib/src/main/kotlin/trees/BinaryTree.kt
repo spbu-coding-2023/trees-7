@@ -1,12 +1,15 @@
 package trees
 
-import java.security.InvalidKeyException
 import treeNodes.BinaryTreeNode
+import java.security.InvalidKeyException
 
 abstract class BinaryTree<K : Comparable<K>, V, U : BinaryTreeNode<K, V, U>> {
     protected open var root: U? = null
 
-    abstract fun insert(key: K, value: V)
+    abstract fun insert(
+        key: K,
+        value: V,
+    )
 
     abstract fun remove(key: K)
 
@@ -14,25 +17,24 @@ abstract class BinaryTree<K : Comparable<K>, V, U : BinaryTreeNode<K, V, U>> {
         return searchNode(key).getValue()
     }
 
-     private fun searchNode(key: K): U {
+    private fun searchNode(key: K): U {
         if (this.root == null) {
             throw InvalidKeyException("Empty tree")
         }
         var curr: U? = root
         while (curr != null && curr.getKey() != key) {
-            curr = if (curr.getKey() > key) {
-                curr.left
-            } else {
-                curr.right
-            }
+            curr =
+                if (curr.getKey() > key) {
+                    curr.left
+                } else {
+                    curr.right
+                }
         }
         if (curr == null) {
             throw InvalidKeyException("No such key in the Tree")
         }
         return curr
     }
-
-
 
     protected fun getMinNodeFromNode(node: U): U {
         var leftChild = node.left
@@ -48,21 +50,28 @@ abstract class BinaryTree<K : Comparable<K>, V, U : BinaryTreeNode<K, V, U>> {
         return node
     }
 
-
     protected fun isEmpty(): Boolean {
         return when {
             root == null -> true
             else -> false
         }
     }
-    fun iterateKeys(node: U? = root, action: (K) -> Unit) {
+
+    fun iterateKeys(
+        node: U? = root,
+        action: (K) -> Unit,
+    ) {
         if (node != null) {
             iterateKeys(node.left, action)
             action(node.getKey())
             iterateKeys(node.right, action)
         }
     }
-    fun iterateValues(node: U? = root, action: (V) -> Unit) {
+
+    fun iterateValues(
+        node: U? = root,
+        action: (V) -> Unit,
+    ) {
         if (node != null) {
             iterateValues(node.left, action)
             action(node.getValue())
@@ -70,13 +79,14 @@ abstract class BinaryTree<K : Comparable<K>, V, U : BinaryTreeNode<K, V, U>> {
         }
     }
 
-    fun iterateNodes(node: U? = root, action: (U) -> Unit) {
+    internal fun iterateNodes( // made protected
+        node: U? = root,
+        action: (U) -> Unit,
+    ) {
         if (node != null) {
             iterateNodes(node.left, action)
             action(node)
             iterateNodes(node.right, action)
         }
     }
-
 }
-

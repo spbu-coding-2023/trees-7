@@ -1,6 +1,6 @@
 package treeNodes
 
-class BSTreeNode<K: Comparable<K>, V>(
+class BSTreeNode<K : Comparable<K>, V>(
     key: K,
-    value: V
-) : BinaryTreeNode<K, V, BSTreeNode<K,V>>(key,value)
+    value: V,
+) : BinaryTreeNode<K, V, BSTreeNode<K, V>>(key, value)

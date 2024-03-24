@@ -1,7 +1,10 @@
 package treeNodes
+
 public enum class Color {
-    RED, BLACK
+    RED,
+    BLACK,
 }
+
 class RBTreeNode<K : Comparable<K>, V>(
     key: K,
     data: V,

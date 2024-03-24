@@ -1,10 +1,9 @@
 package treeNodes
 
 abstract class BinaryTreeNode<K : Comparable<K>, V, U>(
-        private var key: K,
-        private var value: V
+    private var key: K,
+    private var value: V,
 ) {
-
     internal var left: U? = null
     internal var right: U? = null
 
@@ -23,5 +22,4 @@ abstract class BinaryTreeNode<K : Comparable<K>, V, U>(
     fun setValue(value: V) {
         this.value = value
     }
-
 }

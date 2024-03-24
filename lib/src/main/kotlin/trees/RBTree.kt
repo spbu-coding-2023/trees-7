@@ -4,19 +4,23 @@ import treeNodes.Color
 import treeNodes.RBTreeNode
 
 class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
-    override fun insert(key: K, value: V) {
+    override fun insert(
+        key: K,
+        value: V,
+    ) {
         var node: RBTreeNode<K, V>? = root
         var parent: RBTreeNode<K, V>? = null
 
         while (node != null) {
             parent = node
-            node = if (key < node.getKey()) {
-                node.left
-            } else if (key > node.getKey()) {
-                node.right
-            } else {
-                throw IllegalArgumentException("BST already contains a node with key $key")
-            }
+            node =
+                if (key < node.getKey()) {
+                    node.left
+                } else if (key > node.getKey()) {
+                    node.right
+                } else {
+                    throw IllegalArgumentException("BST already contains a node with key $key")
+                }
         }
 
         val newNode: RBTreeNode<K, V> = RBTreeNode(key, value)
@@ -34,10 +38,8 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
     }
 
     private fun fixRedBlackPropertiesAfterInsert(node: RBTreeNode<K, V>) {
-        var parent: RBTreeNode<K, V> = node.parent
-            ?: // Uncomment the following line if you want to enforce black roots
-            return
-
+        var parent: RBTreeNode<K, V> =
+            node.parent ?: return // Uncomment the following line if you want to enforce black roots
 
         if (isBlack(parent)) {
             return
@@ -98,11 +100,12 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
         var node: RBTreeNode<K, V>? = root
 
         while (node != null && node.getKey() !== key) {
-            node = if (key < node.getKey()) {
-                node.left
-            } else {
-                node.right
-            }
+            node =
+                if (key < node.getKey()) {
+                    node.left
+                } else {
+                    node.right
+                }
         }
 
         if (node == null) {
@@ -154,14 +157,14 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
         if (node === root) {
             return
         }
-        node?.let{
+        node?.let {
             var sibling: RBTreeNode<K, V>? = getSibling(node)
 
             if (!isBlack(sibling)) {
                 handleRedSibling(node, sibling)
                 sibling = getSibling(node)
             }
-            sibling?.let{
+            sibling?.let {
                 if (isBlack(sibling.left) && isBlack(sibling.right)) {
                     sibling.color = Color.RED
 
@@ -177,36 +180,42 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
         }
     }
 
-    private fun handleRedSibling(node: RBTreeNode<K, V>?, sibling: RBTreeNode<K, V>?) {
-        node?.let{
+    private fun handleRedSibling(
+        node: RBTreeNode<K, V>?,
+        sibling: RBTreeNode<K, V>?,
+    ) {
+        node?.let {
             sibling?.color = Color.BLACK
-                node.parent?.color = Color.RED
+            node.parent?.color = Color.RED
 
-                if (node === node.parent?.left) {
-                    rotateLeft(node.parent)
-                } else {
-                    rotateRight(node.parent)
-                }
+            if (node === node.parent?.left) {
+                rotateLeft(node.parent)
+            } else {
+                rotateRight(node.parent)
+            }
         }
     }
 
-    private fun handleBlackSiblingWithAtLeastOneRedChild(node: RBTreeNode<K, V>?, sibling: RBTreeNode<K, V>?) {
+    private fun handleBlackSiblingWithAtLeastOneRedChild(
+        node: RBTreeNode<K, V>?,
+        sibling: RBTreeNode<K, V>?,
+    ) {
         var tmpsibling: RBTreeNode<K, V> = sibling ?: return
         node?.let {
-                val parent: RBTreeNode<K, V>? = node.parent
+            val parent: RBTreeNode<K, V>? = node.parent
             parent?.let {
                 val nodeIsLeftChild = node == parent.left
-                    if (nodeIsLeftChild && isBlack(tmpsibling.right)) {
-                        tmpsibling.left?.color = Color.BLACK
-                        tmpsibling.color = Color.RED
-                        rotateRight(tmpsibling)
-                        tmpsibling = node.parent?.right ?: return
-                    } else if (!nodeIsLeftChild && isBlack(tmpsibling.left)) {
-                        tmpsibling.right?.color = Color.BLACK
-                        tmpsibling.color = Color.RED
-                        rotateLeft(tmpsibling)
-                        tmpsibling = node.parent?.left ?: return
-                    }
+                if (nodeIsLeftChild && isBlack(tmpsibling.right)) {
+                    tmpsibling.left?.color = Color.BLACK
+                    tmpsibling.color = Color.RED
+                    rotateRight(tmpsibling)
+                    tmpsibling = node.parent?.right ?: return
+                } else if (!nodeIsLeftChild && isBlack(tmpsibling.left)) {
+                    tmpsibling.right?.color = Color.BLACK
+                    tmpsibling.color = Color.RED
+                    rotateLeft(tmpsibling)
+                    tmpsibling = node.parent?.left ?: return
+                }
 
                 val parentColor = node.parent?.color ?: return
                 tmpsibling.color = parentColor
@@ -243,9 +252,9 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
         node?.let {
             val parent: RBTreeNode<K, V>? = node.parent
             val leftChild: RBTreeNode<K, V>? = node.left
-            leftChild?.let{
+            leftChild?.let {
                 node.left = leftChild.right
-                leftChild.right?.apply {it.parent = node}
+                leftChild.right?.apply { it.parent = node }
 
                 leftChild.right = node
             }
@@ -256,10 +265,10 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
     }
 
     private fun rotateLeft(node: RBTreeNode<K, V>?) {
-        node?.let{
+        node?.let {
             val parent: RBTreeNode<K, V>? = node.parent
             val rightChild: RBTreeNode<K, V>? = node.right
-            rightChild?.let{
+            rightChild?.let {
                 node.right = rightChild.left
                 rightChild.left?.apply { it.parent = node }
 
