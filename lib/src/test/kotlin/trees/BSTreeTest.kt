@@ -75,7 +75,7 @@ class BSTreeTest {
             listOf(
                 "Iakov",
                 "Walter White",
-                "Tandrew Ate",
+                "Andrew Tate",
                 "Arthur Shelby",
                 "John Shelby",
                 "Elon Musk",
