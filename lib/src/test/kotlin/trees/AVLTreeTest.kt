@@ -69,7 +69,7 @@ class AVLTreeTest {
     // AVLTree tests
 
     @Test
-    fun `remove_childless_right when left-with-left-child_case`() {
+    fun `remove childless_right when left with left_child case`() {
         val avlTree = AVLTree<Int, String>()
         avlTree.insert(3, "C")
         avlTree.insert(2, "B")
@@ -96,7 +96,7 @@ class AVLTreeTest {
     }
 
     @Test
-    fun `remove_childless_left when right-with-right-child_case`() {
+    fun `remove childless_left when right with right_child case`() {
         val avlTree = AVLTree<Int, String>()
         avlTree.insert(2, "B")
         avlTree.insert(1, "A")
@@ -123,7 +123,7 @@ class AVLTreeTest {
     }
 
     @Test
-    fun `remove_childless_right when left-with-right-child_case`() {
+    fun `remove childless_right when left with right_child case`() {
         val avlTree = AVLTree<Int, String>()
         avlTree.insert(3, "C")
         avlTree.insert(2, "B")
@@ -150,7 +150,7 @@ class AVLTreeTest {
     }
 
     @Test
-    fun `remove_childless_left when right-with-left-child_case`() {
+    fun `remove childless_left when right with left_child case`() {
         val avlTree = AVLTree<Int, String>()
         avlTree.insert(2, "B")
         avlTree.insert(1, "A")
@@ -177,7 +177,7 @@ class AVLTreeTest {
     }
 
     @Test
-    fun `remove_one-child unbalanced_left-heavy left-right_rotation_case`() {
+    fun `remove one_child unbalanced_left_heavy left_rotation case`() {
         val avlTree = AVLTree<Int, String>()
         avlTree.insert(4, "E")
         avlTree.insert(1, "B")
@@ -207,7 +207,7 @@ class AVLTreeTest {
     }
 
     @Test
-    fun `remove_one-child unbalanced_left-heavy right_rotation_case`() {
+    fun `remove one_child unbalanced_left_heavy right_rotation case`() {
         val avlTree = AVLTree<Int, String>()
         avlTree.insert(4, "E")
         avlTree.insert(2, "C")
@@ -237,7 +237,7 @@ class AVLTreeTest {
     }
 
     @Test
-    fun `remove_one-child unbalanced_right-heavy left_rotation_case`() {
+    fun `remove one_child unbalanced_right_heavy left_rotation case`() {
         val avlTree = AVLTree<Int, String>()
         avlTree.insert(2, "C")
         avlTree.insert(0, "A")
@@ -267,7 +267,7 @@ class AVLTreeTest {
     }
 
     @Test
-    fun `remove_one-child unbalanced_right-heavy right_left_rotation_case`() {
+    fun `remove one_child unbalanced_right_heavy right_rotation case`() {
         val avlTree = AVLTree<Int, String>()
         avlTree.insert(2, "C")
         avlTree.insert(0, "A")
@@ -297,7 +297,7 @@ class AVLTreeTest {
     }
 
     @Test
-    fun `remove_two-child then replacing_without_left`() {
+    fun `remove two_child then replacing_without_left`() {
         val avlTree = AVLTree<Int, String>()
         avlTree.insert(4, "E")
         avlTree.insert(1, "B")
@@ -327,7 +327,7 @@ class AVLTreeTest {
     }
 
     @Test
-    fun `remove_two-child then replacing_by_successor`() {
+    fun `remove two_child then replacing_by_successor`() {
         val avlTree = AVLTree<Int, String>()
         avlTree.insert(2, "C")
         avlTree.insert(1, "B")
@@ -357,7 +357,7 @@ class AVLTreeTest {
     }
 
     @Test
-    fun `insertion left-left_case`() {
+    fun `insertion left left_case`() {
         val avlTree = AVLTree<Int, String>()
         avlTree.insert(4, "E")
         avlTree.insert(2, "C")
@@ -385,7 +385,7 @@ class AVLTreeTest {
     }
 
     @Test
-    fun `insertion left-right_case`() {
+    fun `insertion left right_case`() {
         val avlTree = AVLTree<Int, String>()
         avlTree.insert(4, "E")
         avlTree.insert(1, "B")
@@ -413,7 +413,7 @@ class AVLTreeTest {
     }
 
     @Test
-    fun `insertion right-left_case`() {
+    fun `insertion right left_case`() {
         val avlTree = AVLTree<Int, String>()
         avlTree.insert(1, "B")
         avlTree.insert(0, "A")
@@ -441,7 +441,7 @@ class AVLTreeTest {
     }
 
     @Test
-    fun `insertion right-right_case`() {
+    fun `insertion right right_case`() {
         val avlTree = AVLTree<Int, String>()
         avlTree.insert(1, "B")
         avlTree.insert(0, "A")
