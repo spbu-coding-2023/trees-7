@@ -1,5 +1,6 @@
 version: 2
 mergeable:
+
   - when: pull_request.*, pull_request_review.*
     validate:
       - do: description
@@ -12,3 +13,4 @@ mergeable:
           count: 2
         required:
           assignees: true
+
