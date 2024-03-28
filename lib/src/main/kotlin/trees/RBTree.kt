@@ -19,12 +19,13 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
                 } else if (key > node.getKey()) {
                     node.right
                 } else {
-                    throw IllegalArgumentException("BST already contains a node with key $key")
+                    node.setValue(value)
+                    return
                 }
         }
 
         val newNode: RBTreeNode<K, V> = RBTreeNode(key, value)
-        newNode.color = Color.RED
+        newNode.setColor(Color.RED)
         if (parent == null) {
             root = newNode
         } else if (key < parent.getKey()) {
@@ -32,67 +33,68 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
         } else {
             parent.right = newNode
         }
-        newNode.parent = parent
+        newNode.setParent(parent)
 
         fixRedBlackPropertiesAfterInsert(newNode)
     }
 
     private fun fixRedBlackPropertiesAfterInsert(node: RBTreeNode<K, V>) {
-        var parent: RBTreeNode<K, V> =
-            node.parent ?: return // Uncomment the following line if you want to enforce black roots
-
-        if (isBlack(parent)) {
+        if (node.getParent() == null) {
+            node.setColor(Color.BLACK)
             return
-        }
-
-        val grandparent: RBTreeNode<K, V>? = parent.parent
-
-        if (grandparent == null) {
-            parent.color = Color.BLACK
-            return
-        }
-
-        val uncle: RBTreeNode<K, V>? = getUncle(parent)
-
-        if (uncle != null && !isBlack(uncle)) {
-            parent.color = Color.BLACK
-            grandparent.color = Color.RED
-            uncle.color = Color.BLACK
-
-            fixRedBlackPropertiesAfterInsert(grandparent)
-        } else if (parent === grandparent.left) {
-            if (node === parent.right) {
-                rotateLeft(parent)
-
-                parent = node
-            }
-
-            rotateRight(grandparent)
-
-            parent.color = Color.BLACK
-            grandparent.color = Color.RED
         } else {
-            if (node === parent.left) {
-                rotateRight(parent)
+            var parent: RBTreeNode<K, V> = node.getParent() ?: return
 
-                parent = node
+            if (isBlack(parent)) {
+                return
             }
 
-            rotateLeft(grandparent)
+            val grandparent: RBTreeNode<K, V> = parent.getParent() ?: return
 
-            parent.color = Color.BLACK
-            grandparent.color = Color.RED
+            val uncle: RBTreeNode<K, V>? = getUncle(parent)
+
+            if (uncle != null && !isBlack(uncle)) {
+                parent.setColor(Color.BLACK)
+                grandparent.setColor(Color.RED)
+                uncle.setColor(Color.BLACK)
+
+                fixRedBlackPropertiesAfterInsert(grandparent)
+            } else if (parent === grandparent.left) {
+                if (node === parent.right) {
+                    rotateLeft(parent)
+
+                    parent = node
+                }
+
+                rotateRight(grandparent)
+
+                parent.setColor(Color.BLACK)
+                grandparent.setColor(Color.RED)
+            } else {
+                if (node === parent.left) {
+                    rotateRight(parent)
+
+                    parent = node
+                }
+
+                rotateLeft(grandparent)
+
+                parent.setColor(Color.BLACK)
+                grandparent.setColor(Color.RED)
+            }
         }
     }
 
     private fun getUncle(parent: RBTreeNode<K, V>): RBTreeNode<K, V>? {
-        val grandparent: RBTreeNode<K, V>? = parent.parent
-        return if (grandparent?.left === parent) {
-            grandparent.right
-        } else if (grandparent?.right === parent) {
-            grandparent.left
-        } else {
-            throw IllegalStateException("Parent is not a child of its grandparent")
+        val grandparent: RBTreeNode<K, V>? = parent.getParent()
+        return grandparent?.let {
+            if (grandparent.left === parent) {
+                grandparent.right
+            } else if (grandparent.right === parent) {
+                grandparent.left
+            } else {
+                throw IllegalStateException("Parent is not a child of its grandparent")
+            }
         }
     }
 
@@ -114,68 +116,77 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
 
         val movedUpNode: RBTreeNode<K, V>?
         val deletedNodeColor: Color
+        var flag = false
 
         if (node.left == null || node.right == null) {
+            deletedNodeColor = node.getColor()
             movedUpNode = deleteNodeWithZeroOrOneChild(node)
-            deletedNodeColor = node.color
         } else {
             val inOrderSuccessor: RBTreeNode<K, V> = findMinimum(node.right as RBTreeNode)
 
             node.setKey(inOrderSuccessor.getKey())
+            node.setValue(inOrderSuccessor.getValue())
 
+            deletedNodeColor = inOrderSuccessor.getColor()
             movedUpNode = deleteNodeWithZeroOrOneChild(inOrderSuccessor)
-            deletedNodeColor = inOrderSuccessor.color
+            if (movedUpNode == inOrderSuccessor) {
+                flag = true
+            }
         }
 
         if (deletedNodeColor == Color.BLACK) {
             fixRedBlackPropertiesAfterDelete(movedUpNode)
         }
+        if (node.left == null && node.right == null) {
+            replaceParentsChild(node.getParent(), node, null)
+        } else if (flag) {
+            replaceParentsChild(movedUpNode?.getParent(), movedUpNode, null)
+        }
     }
 
     private fun deleteNodeWithZeroOrOneChild(node: RBTreeNode<K, V>): RBTreeNode<K, V>? {
         if (node.left != null) {
-            replaceParentsChild(node.parent, node, node.left)
+            replaceParentsChild(node.getParent(), node, node.left)
             return node.left // moved-up node
         } else if (node.right != null) {
-            replaceParentsChild(node.parent, node, node.right)
+            replaceParentsChild(node.getParent(), node, node.right)
             return node.right // moved-up node
         } else {
-            replaceParentsChild(node.parent, node, null)
-            return null
+            node.setColor(Color.BLACK)
+            return node
         }
     }
 
     private fun findMinimum(node: RBTreeNode<K, V>): RBTreeNode<K, V> {
         var tmpnode: RBTreeNode<K, V> = node
         while (tmpnode.left != null) {
-            tmpnode = tmpnode.left!!
+            tmpnode = tmpnode.left ?: tmpnode
         }
         return tmpnode
     }
 
     private fun fixRedBlackPropertiesAfterDelete(node: RBTreeNode<K, V>?) {
-        if (node === root) {
-            return
-        }
         node?.let {
+            if (node === root) {
+                node.setColor(Color.BLACK)
+                return
+            }
             var sibling: RBTreeNode<K, V>? = getSibling(node)
 
             if (!isBlack(sibling)) {
                 handleRedSibling(node, sibling)
                 sibling = getSibling(node)
             }
-            sibling?.let {
-                if (isBlack(sibling.left) && isBlack(sibling.right)) {
-                    sibling.color = Color.RED
+            if (isBlack(sibling?.left) && isBlack(sibling?.right)) {
+                sibling?.setColor(Color.RED)
 
-                    if (!isBlack(node.parent)) {
-                        node.parent?.color = Color.BLACK
-                    } else {
-                        fixRedBlackPropertiesAfterDelete(node.parent)
-                    }
+                if (!isBlack(node.getParent())) {
+                    node.getParent()?.setColor(Color.BLACK)
                 } else {
-                    handleBlackSiblingWithAtLeastOneRedChild(node, sibling)
+                    fixRedBlackPropertiesAfterDelete(node.getParent())
                 }
+            } else {
+                handleBlackSiblingWithAtLeastOneRedChild(node, sibling)
             }
         }
     }
@@ -185,13 +196,13 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
         sibling: RBTreeNode<K, V>?,
     ) {
         node?.let {
-            sibling?.color = Color.BLACK
-            node.parent?.color = Color.RED
+            sibling?.setColor(Color.BLACK)
+            node.getParent()?.setColor(Color.RED)
 
-            if (node === node.parent?.left) {
-                rotateLeft(node.parent)
+            if (node === node.getParent()?.left) {
+                rotateLeft(node.getParent())
             } else {
-                rotateRight(node.parent)
+                rotateRight(node.getParent())
             }
         }
     }
@@ -202,37 +213,37 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
     ) {
         var tmpsibling: RBTreeNode<K, V> = sibling ?: return
         node?.let {
-            val parent: RBTreeNode<K, V>? = node.parent
+            val parent: RBTreeNode<K, V>? = node.getParent()
             parent?.let {
                 val nodeIsLeftChild = node == parent.left
                 if (nodeIsLeftChild && isBlack(tmpsibling.right)) {
-                    tmpsibling.left?.color = Color.BLACK
-                    tmpsibling.color = Color.RED
+                    tmpsibling.left?.setColor(Color.BLACK)
+                    tmpsibling.setColor(Color.RED)
                     rotateRight(tmpsibling)
-                    tmpsibling = node.parent?.right ?: return
+                    tmpsibling = node.getParent()?.right ?: return
                 } else if (!nodeIsLeftChild && isBlack(tmpsibling.left)) {
-                    tmpsibling.right?.color = Color.BLACK
-                    tmpsibling.color = Color.RED
+                    tmpsibling.right?.setColor(Color.BLACK)
+                    tmpsibling.setColor(Color.RED)
                     rotateLeft(tmpsibling)
-                    tmpsibling = node.parent?.left ?: return
+                    tmpsibling = node.getParent()?.left ?: return
                 }
 
-                val parentColor = node.parent?.color ?: return
-                tmpsibling.color = parentColor
-                node.parent?.color = Color.BLACK
+                val parentColor = node.getParent()?.getColor() ?: return
+                tmpsibling.setColor(parentColor)
+                node.getParent()?.setColor(Color.BLACK)
                 if (nodeIsLeftChild) {
-                    tmpsibling.right?.color = Color.BLACK
-                    rotateLeft(node.parent)
+                    tmpsibling.right?.setColor(Color.BLACK)
+                    rotateLeft(node.getParent())
                 } else {
-                    tmpsibling.left?.color = Color.BLACK
-                    rotateRight(node.parent)
+                    tmpsibling.left?.setColor(Color.BLACK)
+                    rotateRight(node.getParent())
                 }
             }
         }
     }
 
     private fun getSibling(node: RBTreeNode<K, V>?): RBTreeNode<K, V>? {
-        val parent: RBTreeNode<K, V>? = node?.parent
+        val parent: RBTreeNode<K, V>? = node?.getParent()
         return parent?.let {
             if (node === parent.left) {
                 parent.right
@@ -245,20 +256,20 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
     }
 
     private fun isBlack(node: RBTreeNode<K, V>?): Boolean {
-        return node == null || node.color == Color.BLACK
+        return node == null || node.getColor() == Color.BLACK
     }
 
     private fun rotateRight(node: RBTreeNode<K, V>?) {
         node?.let {
-            val parent: RBTreeNode<K, V>? = node.parent
+            val parent: RBTreeNode<K, V>? = node.getParent()
             val leftChild: RBTreeNode<K, V>? = node.left
             leftChild?.let {
                 node.left = leftChild.right
-                leftChild.right?.apply { it.parent = node }
+                leftChild.right?.apply { it.setParent(node) }
 
                 leftChild.right = node
             }
-            node.parent = leftChild
+            node.setParent(leftChild)
 
             replaceParentsChild(parent, node, leftChild)
         }
@@ -266,15 +277,15 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
 
     private fun rotateLeft(node: RBTreeNode<K, V>?) {
         node?.let {
-            val parent: RBTreeNode<K, V>? = node.parent
+            val parent: RBTreeNode<K, V>? = node.getParent()
             val rightChild: RBTreeNode<K, V>? = node.right
             rightChild?.let {
                 node.right = rightChild.left
-                rightChild.left?.apply { it.parent = node }
+                rightChild.left?.apply { it.setParent(node) }
 
                 rightChild.left = node
             }
-            node.parent = rightChild
+            node.setParent(rightChild)
 
             replaceParentsChild(parent, node, rightChild)
         }
@@ -295,8 +306,6 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
             throw IllegalStateException("RBTreeNode<K, V> is not a child of its parent")
         }
 
-        if (newChild != null) {
-            newChild.parent = parent
-        }
+        newChild?.setParent(parent)
     }
 }
