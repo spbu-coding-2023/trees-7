@@ -13,14 +13,15 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
 
         while (node != null) {
             parent = node
-            node = if (key < node.getKey()) {
-                node.left
-            } else if (key > node.getKey()) {
-                node.right
-            } else {
-                node.setValue(value)
-                return
-            }
+            node =
+                if (key < node.getKey()) {
+                    node.left
+                } else if (key > node.getKey()) {
+                    node.right
+                } else {
+                    node.setValue(value)
+                    return
+                }
         }
 
         val newNode: RBTreeNode<K, V> = RBTreeNode(key, value)
@@ -49,7 +50,6 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
             }
 
             val grandparent: RBTreeNode<K, V> = parent.getParent() ?: return
-
 
             val uncle: RBTreeNode<K, V>? = getUncle(parent)
 
@@ -129,8 +129,9 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
 
             deletedNodeColor = inOrderSuccessor.getColor()
             movedUpNode = deleteNodeWithZeroOrOneChild(inOrderSuccessor)
-            if (movedUpNode == inOrderSuccessor)
+            if (movedUpNode == inOrderSuccessor) {
                 flag = true
+            }
         }
 
         if (deletedNodeColor == Color.BLACK) {
@@ -166,10 +167,10 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
 
     private fun fixRedBlackPropertiesAfterDelete(node: RBTreeNode<K, V>?) {
         node?.let {
-        if (node === root) {
-            node.setColor(Color.BLACK)
-            return
-        }
+            if (node === root) {
+                node.setColor(Color.BLACK)
+                return
+            }
             var sibling: RBTreeNode<K, V>? = getSibling(node)
 
             if (!isBlack(sibling)) {
@@ -264,7 +265,7 @@ class RBTree<K : Comparable<K>, V> : BinaryTree<K, V, RBTreeNode<K, V>>() {
             val leftChild: RBTreeNode<K, V>? = node.left
             leftChild?.let {
                 node.left = leftChild.right
-                leftChild.right?.apply { it.setParent(node)}
+                leftChild.right?.apply { it.setParent(node) }
 
                 leftChild.right = node
             }

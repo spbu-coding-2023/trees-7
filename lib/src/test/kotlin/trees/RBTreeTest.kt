@@ -197,24 +197,25 @@ class RBTreeTest {
         rbTree.insert(9, "как")
         rbTree.insert(10, "я")
 
-
         rbTree.remove(2)
 
-        val expectedColors: List<Color> = listOf(
-            Color.BLACK,
-            Color.RED,
-            Color.BLACK,
-            Color.BLACK,
-            Color.RED,
-        )
-        val expectedKeys: List<Int> = listOf(5,6,8,9,10)
-        val expectedValues: List<String> = listOf(
-            "Если",
-            "знали",
-            "Вы",
-            "как",
-            "я"
-        )
+        val expectedColors: List<Color> =
+            listOf(
+                Color.BLACK,
+                Color.RED,
+                Color.BLACK,
+                Color.BLACK,
+                Color.RED,
+            )
+        val expectedKeys: List<Int> = listOf(5, 6, 8, 9, 10)
+        val expectedValues: List<String> =
+            listOf(
+                "Если",
+                "знали",
+                "Вы",
+                "как",
+                "я",
+            )
         val colors: MutableList<Color> = mutableListOf()
         val keys: MutableList<Int> = mutableListOf()
         val values: MutableList<String> = mutableListOf()
@@ -228,6 +229,7 @@ class RBTreeTest {
         assertEquals(expectedKeys, keys)
         assertEquals(expectedValues, values)
     }
+
     @Test
     fun `remove black node with red sibling which have black children`() {
         val rbTree = RBTree<Int, String>()
@@ -244,26 +246,37 @@ class RBTreeTest {
         rbTree.insert(80, "K")
         rbTree.insert(90, "L")
 
-
         rbTree.remove(30)
 
-        val expectedColors: List<Color> = listOf(
-            Color.RED,
-            Color.BLACK,
-            Color.RED,
-            Color.BLACK,
-            Color.BLACK,
-            Color.RED,
-            Color.BLACK,
-            Color.BLACK,
-            Color.BLACK,
-            Color.BLACK,
-            Color.RED,
-        )
+        val expectedColors: List<Color> =
+            listOf(
+                Color.RED,
+                Color.BLACK,
+                Color.RED,
+                Color.BLACK,
+                Color.BLACK,
+                Color.RED,
+                Color.BLACK,
+                Color.BLACK,
+                Color.BLACK,
+                Color.BLACK,
+                Color.RED,
+            )
         val expectedKeys: List<Int> = listOf(35, 50, 60, 70, 80, 90, 100, 120, 150, 200, 250)
-        val expectedValues: List<String> = listOf(
-            "I", "B", "J", "E", "K", "L", "A", "F", "C", "G", "H"
-        )
+        val expectedValues: List<String> =
+            listOf(
+                "I",
+                "B",
+                "J",
+                "E",
+                "K",
+                "L",
+                "A",
+                "F",
+                "C",
+                "G",
+                "H",
+            )
         val colors: MutableList<Color> = mutableListOf()
         val keys: MutableList<Int> = mutableListOf()
         val values: MutableList<String> = mutableListOf()

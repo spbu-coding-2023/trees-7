@@ -18,6 +18,7 @@ class RBTreeNode<K : Comparable<K>, V>(
     fun setColor(newColor: Color) {
         color = newColor
     }
+
     fun getParent(): RBTreeNode<K, V>? {
         return parent
     }
