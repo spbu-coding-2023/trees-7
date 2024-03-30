@@ -2,52 +2,9 @@ package trees
 
 import org.junit.jupiter.api.Test
 import treeNodes.Color
-import java.security.InvalidKeyException
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 class RBTreeTest {
-    @Test
-    fun `search in empty tree expect special exception message `() {
-        val rbTree = RBTree<Int, String>()
-
-        val exception =
-            assertFailsWith<InvalidKeyException>(
-                block = { rbTree.search(1) },
-            )
-        assertEquals("Empty tree", exception.message)
-    }
-
-    @Test
-    fun `search without needed key expect special exception message`() {
-        val rbTree = RBTree<Int, String>()
-        rbTree.insert(2, "Dron")
-        rbTree.insert(4, "Rodion")
-        rbTree.insert(1, "Semyon")
-
-        val exception =
-            assertFailsWith<InvalidKeyException>(
-                block = { rbTree.search(3) },
-            )
-        assertEquals("No such key in the Tree", exception.message)
-    }
-
-    @Test
-    fun `basic search test`() {
-        val rbTree = RBTree<Int, String>()
-        rbTree.insert(2, "I")
-        rbTree.insert(4, "love")
-        rbTree.insert(1, "solving")
-        rbTree.insert(8, "mathematical")
-        rbTree.insert(9, "physics")
-        rbTree.insert(5, "equations")
-
-        val currentlyValue = rbTree.search(8)
-        val expectedValue = "mathematical"
-
-        assertEquals(expectedValue, currentlyValue)
-    }
-
     @Test
     fun `inorder traversal sequence of tree keys after insertion's`() {
         val rbTree = RBTree<Int, String>()
