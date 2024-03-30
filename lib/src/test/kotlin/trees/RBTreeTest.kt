@@ -6,7 +6,7 @@ import kotlin.test.assertEquals
 
 class RBTreeTest {
     @Test
-    fun `inorder traversal sequence of tree keys after insertion's`() {
+    fun `inorder traversal sequence of tree keys after insertions`() {
         val rbTree = RBTree<Int, String>()
         rbTree.insert(7, "H")
         rbTree.insert(2, "E")
@@ -69,8 +69,15 @@ class RBTreeTest {
         assertEquals(expectedValues, values)
     }
 
+    /*
+
+              _1B  <---REMOVE                                      0B
+             /                             ===>
+            0R
+
+     */
     @Test
-    fun `remove node with left child and without right child`() {
+    fun `remove node with left_child and without right_child`() {
         val rbTree = RBTree<Int, String>()
         rbTree.insert(1, "Эти")
         rbTree.insert(0, "Кыз")
@@ -93,8 +100,15 @@ class RBTreeTest {
         assertEquals(expectedValues, values)
     }
 
+    /*
+
+              _1B                                           1B
+             /                             ===>
+            0R <---REMOVE
+
+     */
     @Test
-    fun `remove red node`() {
+    fun `remove red_node`() {
         val rbTree = RBTree<Int, String>()
         rbTree.insert(1, "Карай")
         rbTree.insert(0, "Кызыл")
@@ -117,8 +131,17 @@ class RBTreeTest {
         assertEquals(expectedValues, values)
     }
 
+    /*
+
+              __3B_                                           _2B_
+             /     \                                         /    \
+           _2B     4B   <---REMOVE                          1B    3B
+          /                                ===>
+         1R
+
+     */
     @Test
-    fun `remove_childless_right when left-with-left-child_case`() {
+    fun `remove childless_right_node when left_with_left_child exists`() {
         val rbTree = RBTree<Int, String>()
         rbTree.insert(3, "C")
         rbTree.insert(2, "B")
@@ -144,8 +167,19 @@ class RBTreeTest {
         assertEquals(expectedValues, values)
     }
 
+    /*
+
+               _5B___                                          __8B__
+              /      \                                        /      \
+             2B      _8R__                                   5B_     9B_
+             ^      /     \                 ===>                \       \
+             |     6B     9B                                    6R      10R
+          REMOVE            \
+                           10R
+
+     */
     @Test
-    fun `remove left node with red sibling which have black children`() {
+    fun `remove left_node with red_sibling which have black children`() {
         val rbTree = RBTree<Int, String>()
         rbTree.insert(5, "Если")
         rbTree.insert(2, "бы")
@@ -187,8 +221,21 @@ class RBTreeTest {
         assertEquals(expectedValues, values)
     }
 
+    /*
+
+                        ____100B______                                          ____100B______
+                       /              \                                        /              \
+                   ___50B___          _150B__                              ___70B__          _150B__
+                  /         \        /       \              ===>          /        \        /       \
+      REMOVE--> 30B       _70R__   120B    200B_                        _50B_       80B_   120B    200B_
+                  \      /      \               \                      /     \          \               \
+                  35R   60B     80B_           250R                   35R    60R        90R            250R
+                                    \
+                                    90R
+
+     */
     @Test
-    fun `remove black node with red sibling which have black children`() {
+    fun `remove black_node with red_sibling which has black children`() {
         val rbTree = RBTree<Int, String>()
         rbTree.insert(100, "A")
         rbTree.insert(50, "B")
@@ -248,8 +295,18 @@ class RBTreeTest {
         assertEquals(expectedValues, values)
     }
 
+/*
+
+           _2B__                                          _3B_
+          /     \                                        /    \
+         1B      3B_                                    2B    4B
+         ^          \                 ===>
+         |          4R
+      REMOVE
+
+*/
     @Test
-    fun `remove_childless_left when right-with-right-child_case`() {
+    fun `remove childless_left_node when right_with_right_child exists`() {
         val rbTree = RBTree<Int, String>()
         rbTree.insert(2, "B")
         rbTree.insert(1, "A")
@@ -275,8 +332,17 @@ class RBTreeTest {
         assertEquals(expectedValues, values)
     }
 
+/*
+
+          __3B_                                           _2B_
+         /     \                                         /    \
+        1B_     4B   <---REMOVE                         1B    3B
+           \                              ===>
+           2R
+
+ */
     @Test
-    fun `remove_childless_right when left-with-right-child_case`() {
+    fun `remove childless_right_node when left_with_right_child exists`() {
         val rbTree = RBTree<Int, String>()
         rbTree.insert(3, "C")
         rbTree.insert(1, "B")
@@ -302,8 +368,18 @@ class RBTreeTest {
         assertEquals(expectedValues, values)
     }
 
+/*
+
+           _2B__                                          _3B_
+          /     \                                        /    \
+         1B     _4B                                     2B    4B
+         ^     /                    ===>
+         |    3R
+      REMOVE
+
+*/
     @Test
-    fun `remove_childless_left when right-with-left-child_case`() {
+    fun `remove childless_left_node when right_with_left_child exists`() {
         val rbTree = RBTree<Int, String>()
         rbTree.insert(2, "C")
         rbTree.insert(1, "B")
@@ -329,8 +405,19 @@ class RBTreeTest {
         assertEquals(expectedValues, values)
     }
 
+/*
+
+           ___4B__   <---REMOVE                             _1B___
+          /       \                                        /      \
+        _1R__     5B_                                     0B     _3R__
+       /     \       \              ===>                        /     \
+      0B     _3B     6R                                        2B     5B
+            /                                                           \
+           2R                                                           6R
+
+*/
     @Test
-    fun `remove_two-child then replacing_without_left`() {
+    fun `remove parent_with_two_children which has right_child without left_child`() {
         val rbTree = RBTree<Int, String>()
         rbTree.insert(4, "E")
         rbTree.insert(1, "B")
@@ -360,8 +447,19 @@ class RBTreeTest {
         assertEquals(expectedValues, values)
     }
 
+    /*
+
+               __2B___   <---REMOVE                             __3B__
+              /       \                                        /      \
+            _1R      _4R__                                   _1B     _5R_
+           /        /     \              ===>               /       /    \
+          0R       3B     6B                               0R      4B    6B
+                         /
+                        5R
+
+     */
     @Test
-    fun `remove_two-child then replacing_by_successor`() {
+    fun `remove parent_with_two_children which has right_child with left_child`() {
         val rbTree = RBTree<Int, String>()
         rbTree.insert(2, "C")
         rbTree.insert(1, "B")
@@ -391,8 +489,21 @@ class RBTreeTest {
         assertEquals(expectedValues, values)
     }
 
+    /*
+
+              __4B_                                                        ___4B_
+             /     \                                                      /      \
+           _2B_    5B                                                  __2R_     5B
+          /    \                            ===>                      /     \
+         0R    3R                                                    0B_    3B
+          ^                                                             \
+          |                                                             1R
+          |
+      INSERT 1
+
+     */
     @Test
-    fun `insertion left-left_case`() {
+    fun `insertion to the left_left_red_child`() {
         val rbTree = RBTree<Int, String>()
         rbTree.insert(4, "E")
         rbTree.insert(2, "C")
@@ -420,8 +531,21 @@ class RBTreeTest {
         assertEquals(expectedValues, values)
     }
 
+    /*
+
+              __4B_                                                        ___4B_
+             /     \                                                      /      \
+           _1B_    5B                                                  _1R__     5B
+          /    \                            ===>                      /     \
+         0R    2R                                                    0B     2B_
+                ^                                                              \
+                |                                                              3R
+                |
+             INSERT 3
+
+     */
     @Test
-    fun `insertion left-right_case`() {
+    fun `insertion to the left_right_red_child`() {
         val rbTree = RBTree<Int, String>()
         rbTree.insert(4, "E")
         rbTree.insert(1, "B")
@@ -449,8 +573,21 @@ class RBTreeTest {
         assertEquals(expectedValues, values)
     }
 
+    /*
+
+              _1B__                                                        _1B___
+             /     \                                                      /      \
+            0B    _4B_                                                  0B      __4R_
+                 /    \                            ===>                        /     \
+                3R    5R                                                     _3B      5B
+                ^                                                           /
+                |                                                          2R
+                |
+             INSERT 2
+
+     */
     @Test
-    fun `insertion right-left_case`() {
+    fun `insertion to the right_left_red_child`() {
         val rbTree = RBTree<Int, String>()
         rbTree.insert(1, "B")
         rbTree.insert(0, "A")
@@ -478,8 +615,21 @@ class RBTreeTest {
         assertEquals(expectedValues, values)
     }
 
+    /*
+
+              __2B__                                                        __2B___
+             /      \                                                      /       \
+            0B_      3B_                                                  0B_       _4B_
+               \        \                            ===>                    \     /    \
+                1R      5R                                                    1R   3R   5R
+                        ^
+                        |
+                        |
+                     INSERT 4
+
+     */
     @Test
-    fun `insertion right-right_case`() {
+    fun `insertion to the right_right_red_child`() {
         val rbTree = RBTree<Int, String>()
         rbTree.insert(0, "A")
         rbTree.insert(3, "D")
