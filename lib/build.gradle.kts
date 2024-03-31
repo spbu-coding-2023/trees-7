@@ -13,6 +13,8 @@ plugins {
     `java-library`
 
     jacoco
+
+    id("org.jetbrains.dokka") version "1.9.20"
 }
 
 repositories {
