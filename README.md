@@ -62,6 +62,11 @@ To run tests, run the following command
   ./gradlew test
 ```
 
+## Documentation
+
+[Documentation .md](https://github.com/spbu-coding-2023/trees-7/blob/main/docs/gfm/Documentation.md)
+
+[Documentation .html](https://github.com/spbu-coding-2023/trees-7/blob/main/docs/html/Documentation.html)
 
 ## License
 
