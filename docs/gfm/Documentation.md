@@ -1,4 +1,4 @@
-//[lib](index.md)
+//[lib](Documentation)
 
 # lib
 
