@@ -49,6 +49,12 @@ tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
+tasks.withType<Test> {
+    testLogging {
+        events("PASSED", "SKIPPED", "FAILED")
+    }
+}
+
 
 tasks.named<JacocoReport>("jacocoTestReport") {
     dependsOn(tasks.test)
