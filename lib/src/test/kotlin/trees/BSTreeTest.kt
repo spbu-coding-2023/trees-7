@@ -26,19 +26,19 @@ class BSTreeTest {
     fun `insert two nodes with same key`() {
         bsTree.insert(52, "Tandrew Ate")
 
-        val expectedKeys: List<Int> = listOf(69, 52, 19, 18, 17, 7, 6, 5, 4, 3)
+        val expectedKeys: List<Int> = listOf(3, 4, 5, 6, 7, 17, 18, 19, 52, 69)
         val expectedValues: List<String> =
             listOf(
-                "Walter White",
-                "Tandrew Ate",
-                "Arthur Shelby",
-                "John Shelby",
-                "Elon Musk",
-                "Thomas Shelby",
-                "Patrick Bateman",
-                "Tristan Tate",
-                "Tyler Durden",
                 "Ryan Gosling",
+                "Tyler Durden",
+                "Tristan Tate",
+                "Patrick Bateman",
+                "Thomas Shelby",
+                "Elon Musk",
+                "John Shelby",
+                "Arthur Shelby",
+                "Tandrew Ate",
+                "Walter White",
             )
         val keys: MutableList<Int> = mutableListOf()
         val values: MutableList<String> = mutableListOf()
@@ -70,20 +70,20 @@ class BSTreeTest {
     fun `basic insert`() {
         bsTree.insert(74, "Iakov")
 
-        val expectedKeys: List<Int> = listOf(74, 69, 52, 19, 18, 17, 7, 6, 5, 4, 3)
+        val expectedKeys: List<Int> = listOf(3, 4, 5, 6, 7, 17, 18, 19, 52, 69, 74)
         val expectedValues: List<String> =
             listOf(
-                "Iakov",
-                "Walter White",
-                "Andrew Tate",
-                "Arthur Shelby",
-                "John Shelby",
-                "Elon Musk",
-                "Thomas Shelby",
-                "Patrick Bateman",
-                "Tristan Tate",
-                "Tyler Durden",
                 "Ryan Gosling",
+                "Tyler Durden",
+                "Tristan Tate",
+                "Patrick Bateman",
+                "Thomas Shelby",
+                "Elon Musk",
+                "John Shelby",
+                "Arthur Shelby",
+                "Andrew Tate",
+                "Walter White",
+                "Iakov",
             )
         val keys: MutableList<Int> = mutableListOf()
         val values: MutableList<String> = mutableListOf()
@@ -114,18 +114,18 @@ class BSTreeTest {
     @Test
     fun `remove node with zero children`() {
         bsTree.remove(3)
-        val expectedKeys: List<Int> = listOf(69, 52, 19, 18, 17, 7, 6, 5, 4)
+        val expectedKeys: List<Int> = listOf(4, 5, 6, 7, 17, 18, 19, 52, 69)
         val expectedValues: List<String> =
             listOf(
-                "Walter White",
-                "Andrew Tate",
-                "Arthur Shelby",
-                "John Shelby",
-                "Elon Musk",
-                "Thomas Shelby",
-                "Patrick Bateman",
-                "Tristan Tate",
                 "Tyler Durden",
+                "Tristan Tate",
+                "Patrick Bateman",
+                "Thomas Shelby",
+                "Elon Musk",
+                "John Shelby",
+                "Arthur Shelby",
+                "Andrew Tate",
+                "Walter White",
             )
         val keys: MutableList<Int> = mutableListOf()
         val values: MutableList<String> = mutableListOf()
@@ -140,18 +140,18 @@ class BSTreeTest {
     @Test
     fun `remove node with one children`() {
         bsTree.remove(18)
-        val expectedKeys: List<Int> = listOf(69, 52, 19, 17, 7, 6, 5, 4, 3)
+        val expectedKeys: List<Int> = listOf(3, 4, 5, 6, 7, 17, 19, 52, 69)
         val expectedValues: List<String> =
             listOf(
-                "Walter White",
-                "Andrew Tate",
-                "Arthur Shelby",
-                "Elon Musk",
-                "Thomas Shelby",
-                "Patrick Bateman",
-                "Tristan Tate",
-                "Tyler Durden",
                 "Ryan Gosling",
+                "Tyler Durden",
+                "Tristan Tate",
+                "Patrick Bateman",
+                "Thomas Shelby",
+                "Elon Musk",
+                "Arthur Shelby",
+                "Andrew Tate",
+                "Walter White",
             )
         val keys: MutableList<Int> = mutableListOf()
         val values: MutableList<String> = mutableListOf()
@@ -166,18 +166,18 @@ class BSTreeTest {
     @Test
     fun `remove node with two children`() {
         bsTree.remove(52)
-        val expectedKeys: List<Int> = listOf(69, 19, 18, 17, 7, 6, 5, 4, 3)
+        val expectedKeys: List<Int> = listOf(3, 4, 5, 6, 7, 17, 18, 19, 69)
         val expectedValues: List<String> =
             listOf(
-                "Walter White",
-                "Arthur Shelby",
-                "John Shelby",
-                "Elon Musk",
-                "Thomas Shelby",
-                "Patrick Bateman",
-                "Tristan Tate",
-                "Tyler Durden",
                 "Ryan Gosling",
+                "Tyler Durden",
+                "Tristan Tate",
+                "Patrick Bateman",
+                "Thomas Shelby",
+                "Elon Musk",
+                "John Shelby",
+                "Arthur Shelby",
+                "Walter White",
             )
         val keys: MutableList<Int> = mutableListOf()
         val values: MutableList<String> = mutableListOf()
