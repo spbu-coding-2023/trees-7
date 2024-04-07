@@ -50,11 +50,8 @@ abstract class BinaryTree<K : Comparable<K>, V, U : BinaryTreeNode<K, V, U>> {
         return node
     }
 
-    protected fun isEmpty(): Boolean {
-        return when {
-            root == null -> true
-            else -> false
-        }
+    fun isEmpty(): Boolean {
+        return root == null
     }
 
     fun iterateKeys(
