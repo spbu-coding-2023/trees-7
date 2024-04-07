@@ -64,9 +64,20 @@ To run tests, run the following command
 
 ## Documentation
 
-[Documentation .md](https://github.com/spbu-coding-2023/trees-7/blob/main/docs/gfm/Documentation.md)
+To generate documentation, run the following commands:
 
-[Documentation .html](https://github.com/spbu-coding-2023/trees-7/blob/main/docs/html/Documentation.html)
+- for .html
+```bash
+  ./gradlew dokkaHtml
+```
+
+- for .md
+```bash
+  ./gradlew dokkaGfm
+```
+You will be able to find the generated "index" files at the path shown in the screenshot below
+
+![image](https://github.com/spbu-coding-2023/trees-7/assets/71703485/36bdd38f-2216-47d6-9bee-73dd79eb387d)
 
 ## License
 
