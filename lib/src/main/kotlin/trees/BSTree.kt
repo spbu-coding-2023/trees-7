@@ -69,20 +69,3 @@ class BSTree<K : Comparable<K>, V> : BinaryTree<K, V, BSTreeNode<K, V>>() {
         return node
     }
 }
-
-fun main() {
-    val bsTree = BSTree<Int, String>()
-    bsTree.insert(7, "Thomas Shelby")
-    bsTree.insert(52, "Andrew Tate")
-    bsTree.insert(5, "Tristan Tate")
-    bsTree.insert(4, "Tyler Durden")
-    bsTree.insert(3, "Ryan Gosling")
-    bsTree.insert(6, "Patrick Bateman")
-    bsTree.insert(69, "Walter White")
-    bsTree.insert(17, "Elon Musk")
-    bsTree.insert(18, "John Shelby")
-    bsTree.insert(19, "Arthur Shelby")
-    bsTree.remove(52)
-    bsTree.iterateKeys { print("$it, ") }
-    bsTree.iterateValues { print("\"$it\", ") }
-}
